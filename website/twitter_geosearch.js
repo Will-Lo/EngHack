@@ -11,11 +11,14 @@ if (Meteor.isServer) {
         access_token_secret:  'JHtruRrwmTpENizhRfEyC8TkV9RiODwLBDMl8hSJfGztn'
 
     });
-    var cities;
-    T.get('search/tweets', { q: 'banana', count: 200}, function(err, data, response) {
+    var cities=[];
+    var tweets=[];
+
+    T.get('search/tweets', { q: 'banana', count: 100}, function(err, data, response) {
         for (var i in data.statuses){
             if (data.statuses[i].place != null){
-                console.log(data.statuses[i].place);
+                cities.push(data.statuses[i].place.full_name);
+                console.log(data.statuses[i].place.full_name);
             };
     }
 })
