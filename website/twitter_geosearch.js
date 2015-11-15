@@ -14,17 +14,16 @@ if (Meteor.isServer) {
     var cities=[];
     var tweets=[];
 
-    T.get('search/tweets', { q: 'banana', count: 100}, function(err, data, response) {
+    //takes tweets from the twitter api and adds relevant information to lists
+    T.get('search/tweets', { q: 'apple since:2011-11', count: 100}, function(err, data, response) {
         for (var i in data.statuses){
             if (data.statuses[i].place != null){
                 cities.push(data.statuses[i].place.full_name);
+                tweets.push(data.statuses[i].id);
                 console.log(data.statuses[i].place.full_name);
             };
     }
 })
-    //  search twitter for all tweets containing the word 'banana'
-    //  since Nov. 11, 2011
-
   });
 }
 
