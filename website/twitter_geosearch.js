@@ -2,7 +2,6 @@ if (Meteor.isClient) {
     Template.query.events({
     'submit': function (event) {
     // code to run on server at text input
-    console.log("submitting form!");
     var text = event.target.text.value;
     var Twit = Meteor.npmRequire('twit');
 
