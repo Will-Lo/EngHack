@@ -186,13 +186,13 @@ if (Meteor.isClient) {
     GoogleMaps.ready('map', function(map) {
 
       var latLng = {lat: 43.472848, lng: -80.540266};
-      
+      /*
       var marker = new google.maps.Marker({
         position: new google.maps.LatLng(latLng.lat, latLng.lng),
         map: map.instance,
         id: document._id,
         title: 'it works'
-      });
+      });*/
 
       var places = ['Paris','NYC','Waterloo'];
         var geocoder = new google.maps.Geocoder();
@@ -204,26 +204,24 @@ if (Meteor.isClient) {
 
             //alert(places[i]);
             alert(name[i]);
-            geocoder.geocode({'address': address}, function(results, status) {
-              if (status === google.maps.GeocoderStatus.OK) {
-              //  resultsMap.setCenter(results[0].geometry.location);
-              var myLatLng = results[0].geometry.location;
-                    var marker = new google.maps.Marker({
+            (function(i) {
+              geocoder.geocode({'address': address}, function(results, status) {
+                if (status === google.maps.GeocoderStatus.OK) {
+                  //  resultsMap.setCenter(results[0].geometry.location);
+                  var myLatLng = results[0].geometry.location;
+                  var marker = new google.maps.Marker({
                     map: map.instance,
                     position: results[0].geometry.location,
-                    title: name[i-1]
+                    title: name[i]
                   });
-               markers.push(marker);
-                 //alert(name[i]);
-                
-              }
-              else {
+                  markers.push(marker);
+                }
+                else {
                 alert('Geocode was not successful for the following reason: ' + status);
-              }
-           });
-            
-         }
-
+                }
+             })
+            })(i);
+          }
       google.maps.event.addListener(map.instance, 'click', function(event) {
         //Markers.insert({ lat: event.latLng.lat(), lng: event.latLng.lng() });
       });
