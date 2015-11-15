@@ -2,6 +2,8 @@ if (Meteor.isServer) {
   Meteor.startup(function () {
     // code to run on server at startup
 
+    
+
     var Twit = Meteor.npmRequire('twit');
 
     var T = new Twit({
@@ -15,9 +17,8 @@ if (Meteor.isServer) {
     var tweets=[];
 
     //takes tweets from the twitter api and adds relevant information to lists
-    T.get('search/tweets', { q: 'apple since:2011-11', count: 100}, function(err, data, response) {
+    T.get('search/tweets', { q: 'This tweet does not test broken code', count: 100}, function(err, data, response) {
         for (var i in data.statuses){
-            console.log(data.statuses[i].place);
             if (data.statuses[i].place != null){
                 cities.push(data.statuses[i].place.full_name);
                 tweets.push(data.statuses[i].id);
