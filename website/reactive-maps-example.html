@@ -1,0 +1,42 @@
+<head>
+  <title>reactive-maps-example</title>
+</head>
+
+<body>
+  {{> map}}
+</body>
+
+<head>
+	<style>
+#floating-panel {
+  position: absolute;
+  top: 10px;
+  left: 25%;
+  z-index: 5;
+  background-color: #fff;
+  padding: 5px;
+  border: 1px solid #999;
+  text-align: center;
+  font-family: 'Roboto','sans-serif';
+  line-height: 30px;
+  padding-left: 10px;
+}
+
+    </style>
+  </head>
+  <body>
+    <div id="floating-panel">
+      <input id="address" type="textbox" value="Waterloo,ON">
+      <input id="submit" type="button" value="Geocode">
+    </div>
+    <div id="map"></div>
+</body>
+
+
+<template name="map">
+  <div class="map-container">
+    {{> googleMap name="map" options=mapOptions}}
+  </div>
+</template>
+
+
