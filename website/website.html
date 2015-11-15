@@ -1,13 +1,6 @@
 <head>
-  <title>reactive-maps-example</title>
-</head>
-
-<body>
-  {{> map}}
-</body>
-
-<head>
-	<style>
+  <title>Twitter Map</title>
+  <style>
 #floating-panel {
   position: absolute;
   top: 10px;
@@ -23,8 +16,24 @@
 }
 
     </style>
-  </head>
-  <body>
+    <header>
+      Find where people are tweeting!
+    </header>
+</head>
+
+<body>
+  {{> query}}s
+</body>
+
+<template name="query">
+  <form name="query">
+    <input type="text" name= "text" placeholder="Search for tweets" />
+  </form>
+</template>
+
+<body>
+  {{> map}}
+
     <div id="floating-panel">
       <input id="address" type="textbox" value="Waterloo,ON">
       <input id="submit" type="button" value="Geocode">
