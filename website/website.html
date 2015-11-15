@@ -1,20 +1,6 @@
 <head>
   <title>Twitter Map</title>
-</head>
-<body>
-  <header>
-      <h1>Search Query</h1>
- 
-      <form class="query">
-        <input type="text" name="query" placeholder="Type in a query to search for tweets" />
-      </form>
-    </header>
-
-  {{> map}}
-</body>
-
-<head>
-	<style>
+  <style>
 #floating-panel {
   position: absolute;
   top: 10px;
@@ -30,8 +16,24 @@
 }
 
     </style>
-  </head>
-  <body>
+    <header>
+      Find where people are tweeting!
+    </header>
+</head>
+
+<body>
+  {{> query}}s
+</body>
+
+<template name="query">
+  <form name="query">
+    <input type="text" name= "text" placeholder="Search for tweets" />
+  </form>
+</template>
+
+<body>
+  {{> map}}
+
     <div id="floating-panel">
       <input id="address" type="textbox" value="Waterloo,ON">
       <input id="submit" type="button" value="Geocode">

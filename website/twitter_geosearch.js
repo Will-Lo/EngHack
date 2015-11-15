@@ -1,9 +1,9 @@
-if (Meteor.isServer) {
-  Meteor.startup(function () {
-    // code to run on server at startup
-
-    
-
+if (Meteor.isClient) {
+    Template.query.events({
+    'submit': function (event) {
+    // code to run on server at text input
+    console.log("submitting form!");
+    var text = event.target.text.value;
     var Twit = Meteor.npmRequire('twit');
 
     var T = new Twit({
@@ -13,19 +13,24 @@ if (Meteor.isServer) {
         access_token_secret:  'JHtruRrwmTpENizhRfEyC8TkV9RiODwLBDMl8hSJfGztn'
 
     });
-    var cities=[];
+    
     var tweets=[];
 
     //takes tweets from the twitter api and adds relevant information to lists
-    T.get('search/tweets', { q: 'This tweet does not test broken code', count: 100}, function(err, data, response) {
+    T.get('search/tweets', { q: text, count: 100}, function(err, data, response) {
         for (var i in data.statuses){
             if (data.statuses[i].place != null){
-                cities.push(data.statuses[i].place.full_name);
+                locations.push(data.statuses[i].place.full_name);
                 tweets.push(data.statuses[i].id);
                 console.log(data.statuses[i].place.full_name);
             };
     }
+
 })
+    event.preventDefault();
+        event.stopPropagation();
+        return false; 
+}
   });
 }
 
