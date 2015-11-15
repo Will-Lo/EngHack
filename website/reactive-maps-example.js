@@ -13,9 +13,57 @@ if (Meteor.isClient) {
         id: document._id,
         title: 'it works'
       });
+
        // Markers.insert({ lat: 43.472848, lng: -80.540266 });
         //Markers.update(marker.id, { set: { lat: 43.472848, lng: -80.540266 } });
 
+      var places = ['Paris, France','Waterloo,ON', 'NYC, NY'];
+       var geocoder = new google.maps.Geocoder();
+          for(var i=0; i<places.length; i++){
+            var address = places[i];
+            geocoder.geocode({'address': address}, function(results, status) {
+              if (status === google.maps.GeocoderStatus.OK) {
+              //  resultsMap.setCenter(results[0].geometry.location);
+              var marker = new google.maps.Marker({
+                  map: resultsMap,
+                  position: results[0].geometry.location,
+                  title: address
+                });
+              }
+              else {
+                alert('Geocode was not successful for the following reason: ' + status);
+              }
+            });
+          }
+        setMapOnAll(map.instance);
+          
+
+        /*//STARTS HEREEEEEEEEEEEEEEEEEEEEE
+        var places = ['Paris', 'Waterloo, ON', 'NYC, NY'];
+        for(var i=0; i<places.length; i++){
+          
+          //var address = document.getElementById('address').value;
+          var address=[]; 
+          address.push(places[i]);
+          geocoder.geocode({'address': address[i]}, function(results, status) {
+            if (status === google.maps.GeocoderStatus.OK) {
+              //resultsMap.setCenter(results[0].geometry.location);
+              var marker = [];
+              var new_marker = new google.maps.Marker({
+                map: resultsMap,
+                position: results[0].geometry.location,
+                title: address[i]
+              });
+              marker.push(new_marker);
+            }
+            else {
+              alert('Geocode was not successful for the following reason: ' + status);
+            }
+          });            
+        }*/
+        //ENDS HEREEEEEEEEEEEEEEEEEEEEEEEEEEEE
+
+/*
       var geocoder = new google.maps.Geocoder();
 
       document.getElementById('submit').addEventListener('click', function() {
@@ -28,7 +76,8 @@ if (Meteor.isClient) {
             resultsMap.setCenter(results[0].geometry.location);
             var marker = new google.maps.Marker({
               map: resultsMap,
-              position: results[0].geometry.location
+              position: results[0].geometry.location,
+              title: address
             });
           }
           else {
@@ -36,7 +85,7 @@ if (Meteor.isClient) {
           }
         });
       }
-
+*/
       google.maps.event.addListener(map.instance, 'click', function(event) {
         //Markers.insert({ lat: event.latLng.lat(), lng: event.latLng.lng() });
       });
@@ -68,8 +117,6 @@ if (Meteor.isClient) {
           delete markers[oldDocument._id];
         }
       });
-
-
     });
   });
 
