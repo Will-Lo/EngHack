@@ -10,13 +10,14 @@ if (Meteor.isClient) {
       var marker = new google.maps.Marker({
         position: new google.maps.LatLng(latLng.lat, latLng.lng),
         map: map.instance,
-        id: document._id
+        id: document._id,
+        title: 'it works'
       });
        // Markers.insert({ lat: 43.472848, lng: -80.540266 });
         //Markers.update(marker.id, { set: { lat: 43.472848, lng: -80.540266 } });
 
       google.maps.event.addListener(map.instance, 'click', function(event) {
-        Markers.insert({ lat: event.latLng.lat(), lng: event.latLng.lng() });
+        //Markers.insert({ lat: event.latLng.lat(), lng: event.latLng.lng() });
       });
 
       var markers = {};
