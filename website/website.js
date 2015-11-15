@@ -1,12 +1,11 @@
 Markers = new Mongo.Collection('markers');
 
 if (Meteor.isClient) {
-
   Template.map.onCreated(function() {
     GoogleMaps.ready('map', function(map) {
 
       var latLng = {lat: 43.472848, lng: -80.540266};
-
+      
       var marker = new google.maps.Marker({
         position: new google.maps.LatLng(latLng.lat, latLng.lng),
         map: map.instance,
@@ -16,26 +15,60 @@ if (Meteor.isClient) {
 
        // Markers.insert({ lat: 43.472848, lng: -80.540266 });
         //Markers.update(marker.id, { set: { lat: 43.472848, lng: -80.540266 } });
-
-      var places = ['Paris, France','Waterloo,ON', 'NYC, NY'];
+        var places = ['Paris','Waterloo,ON', 'NYC, NY'];
+        var geocoder = new google.maps.Geocoder();
+          for(var i=0; i<places.length; i++){
+            var address = places[i];
+            //alert(places[i]);
+            geocoder.geocode({'address': address}, function(results, status) {
+              if (status === google.maps.GeocoderStatus.OK) {
+              //  resultsMap.setCenter(results[0].geometry.location);
+              console.log("it works");
+                var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(latLng.lat, latLng.lng),
+                map: resultsMap,
+                id: document._id,
+                title: 'it works'
+              });
+                var marker = new google.maps.Marker({
+                    map: map.instance,
+                    position: results[0].geometry.location,
+                    title: address
+                  });
+                marker.push(marker);
+              }
+              else {
+                alert('Geocode was not successful for the following reason: ' + status);
+              }
+           });
+         }
+      /*var places = ['Paris, France','Waterloo,ON', 'NYC, NY'];
        var geocoder = new google.maps.Geocoder();
           for(var i=0; i<places.length; i++){
             var address = places[i];
             geocoder.geocode({'address': address}, function(results, status) {
               if (status === google.maps.GeocoderStatus.OK) {
               //  resultsMap.setCenter(results[0].geometry.location);
-              var marker = new google.maps.Marker({
-                  map: resultsMap,
-                  position: results[0].geometry.location,
-                  title: address
-                });
+              console.log("it works");
+                var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(latLng.lat, latLng.lng),
+                map: map.instance,
+                id: document._id,
+                title: 'it works'
+              });
+                var marker = new google.maps.Marker({
+                    map: map.instance,
+                    position: results[0].geometry.location,
+                    title: address
+                  });
+                //marker.push(marker);
               }
               else {
                 alert('Geocode was not successful for the following reason: ' + status);
               }
             });
-          }
-        setMapOnAll(map.instance);
+          }*/
+        //setMapOnAll(map.instance);
           
 
         /*//STARTS HEREEEEEEEEEEEEEEEEEEEEE
@@ -122,15 +155,19 @@ if (Meteor.isClient) {
 
   Meteor.startup(function() {
     GoogleMaps.load();
+    var places = ["Paris,France","Waterloo,ON", 'NYC, NY'];
+      console.log(places[0]);
   });
+
 
   Template.map.helpers({
     mapOptions: function() {
       if (GoogleMaps.loaded()) {
         return {
           center: new google.maps.LatLng(43.472848, -80.540266),
-          zoom: 16
+          zoom: 8
         };
+        
       }
     }
   });
