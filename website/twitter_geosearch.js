@@ -11,8 +11,13 @@ if (Meteor.isServer) {
         access_token_secret:  'JHtruRrwmTpENizhRfEyC8TkV9RiODwLBDMl8hSJfGztn'
 
     });
-    T.get('search/tweets', { q: 'banana since:2011-11-11', count: 10 }, function(err, data, response) {
-  console.log(data)
+    var cities;
+    T.get('search/tweets', { q: 'banana', count: 200}, function(err, data, response) {
+        for (var i in data.statuses){
+            if (data.statuses[i].place != null){
+                console.log(data.statuses[i].place);
+            };
+    }
 })
     //  search twitter for all tweets containing the word 'banana'
     //  since Nov. 11, 2011
